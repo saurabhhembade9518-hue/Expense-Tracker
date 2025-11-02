@@ -1,10 +1,13 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useEffect } from 'react';
 import AppReducer from './AppReducer';
+
+// 🔹 Load data from localStorage (if available)
+const localData = JSON.parse(localStorage.getItem('transactions')) || [];
 
 // Initial state
 const initialState = {
-  transactions: []
-}
+  transactions: localData
+};
 
 // Create context
 export const GlobalContext = createContext(initialState);
@@ -13,7 +16,7 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
-  // Actions
+  // 🔹 Actions
   function deleteTransaction(id) {
     dispatch({
       type: 'DELETE_TRANSACTION',
@@ -28,11 +31,20 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  return (<GlobalContext.Provider value={{
-    transactions: state.transactions,
-    deleteTransaction,
-    addTransaction
-  }}>
-    {children}
-  </GlobalContext.Provider>);
-}
+  // 🔹 Save to localStorage whenever transactions change
+  useEffect(() => {
+    localStorage.setItem('transactions', JSON.stringify(state.transactions));
+  }, [state.transactions]);
+
+  return (
+    <GlobalContext.Provider
+      value={{
+        transactions: state.transactions,
+        deleteTransaction,
+        addTransaction
+      }}
+    >
+      {children}
+    </GlobalContext.Provider>
+  );
+};
