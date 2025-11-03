@@ -5,7 +5,7 @@
   --card-bg: rgba(255, 255, 255, 0.05);
   --border: rgba(255, 255, 255, 0.1);
   --text: #e2e8f0;
-  --accent: #3b82f6; /* Blue accent */
+  --accent: #3b82f6;
   --accent-hover: #2563eb;
   --error: #ef4444;
   --success: #22c55e;
@@ -26,9 +26,9 @@ body {
   align-items: center;
   justify-content: center;
   color: var(--text);
+  padding: 20px; /* added for spacing on small screens */
 }
 
-/* Centered heading above the card */
 .main-title {
   text-align: center;
   font-size: 32px;
@@ -40,7 +40,7 @@ body {
 }
 
 .container {
-  width: 480px; /* Increased from 380px to 480px */
+  width: 480px;
   background: var(--card-bg);
   backdrop-filter: blur(14px);
   border: 1px solid var(--border);
@@ -48,6 +48,7 @@ body {
   box-shadow: var(--shadow);
   padding: 35px 32px;
   transition: all 0.3s ease;
+  margin: 0 auto; /* ensure it's centered */
 }
 
 .container:hover {
@@ -196,18 +197,27 @@ input:focus {
 .list li:hover .delete-btn {
   opacity: 1;
 }
-.main-title {
-  text-align: center;
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--accent);
-  text-shadow: 0 0 12px rgba(59, 130, 246, 0.7);
-  margin-bottom: 25px;
-  letter-spacing: 1px;
-}
 
-@media (max-width: 500px) {
+/* responsive fix */
+@media (max-width: 768px) {
   .container {
     width: 90%;
+    max-width: 400px;
+    margin: auto;
+  }
+
+  .main-title {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    padding: 25px 20px;
+  }
+
+  body {
+    padding: 15px;
   }
 }
